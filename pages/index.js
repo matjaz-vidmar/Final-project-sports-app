@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import Link from 'next/link';
+import Header from '../components/Header';
 import iconArchery from '../public/iconArchery.svg';
 import iconBadminton from '../public/iconBadminton.svg';
 import iconBasketball from '../public/iconBasketball.svg';
@@ -24,15 +26,7 @@ const iconDivStyle = css`
   justify-content: center;
   align-items: stretch;
 `;
-const backgroundStyle = css`
-  position: fixed;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  min-height: 100%;
 
-  background-color: #fdfc8d;
-`;
 const iconStyle = css`
   @keyframes float {
     0% {
@@ -98,8 +92,10 @@ const navButtonsStyle = css`
 
 export default function Home() {
   return (
-    <body css={backgroundStyle}>
+    <body>
+      <Header />
       <h1 css={h1Style}>Sports meetup app</h1>
+
       <div css={iconDivStyle}>
         <a css={iconStyle}>
           <Image src={iconBasketball} alt="icon basketball" />
@@ -144,8 +140,12 @@ export default function Home() {
         </a>
       </div>
       <nav css={navButtonsStyle}>
-        <button css={buttonStyle}>Login</button>
-        <button css={buttonStyle}>Register</button>
+        <Link href="/login">
+          <button css={buttonStyle}>Login</button>
+        </Link>
+        <Link href={'/register'}>
+          <button css={buttonStyle}>Register</button>
+        </Link>
       </nav>
     </body>
   );
