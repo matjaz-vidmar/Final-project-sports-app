@@ -9,8 +9,8 @@ const mainStyles = css`
   border-top: 30px;
   margin-bottom: 200px;
   padding-bottom: 1000px;
-  position: relative;
-  background-color: #ecf8ce;
+  position: absolute;
+  background-color: #e0e0e0;
 `;
 
 export default function Layout(props) {

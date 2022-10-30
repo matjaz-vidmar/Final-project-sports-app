@@ -5,25 +5,35 @@ import iconJoggingHeader from '../public/iconJoggingHeader.svg';
 
 const headerStyle = css`
   display: flex;
+
   justify-content: space-between;
-  background-color: #ecf8ce;
-  padding: 20px 20px;
+
+  background-color: #e0e0e0;
+  max-width: auto;
   position: sticky;
   top: 0;
-  width: 90%;
   z-index: 2;
+  padding: 20px;
+`;
+const h1Style = css`
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 30px;
+  padding-top: 3px;
+  font-weight: 650;
+  color: #2f88ff;
 `;
 const faviconStyle = css`
-  padding: 5px;
+  padding: 6px;
   border: solid 2px;
-  border-radius: 50px;
+  border-radius: 40px;
   border-color: black;
 `;
 const buttonsNavStyle = css`
   gap: 20px;
+
   align-items: space-between;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 `;
 const headerButtonStyle = css`
   border-radius: 5px;
@@ -34,8 +44,8 @@ const headerButtonStyle = css`
   text-decoration: none;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 15px;
-  background-color: black;
-  color: #fdfc8d;
+  background-color: #e0e0e0;
+  color: black;
   :hover {
     background-color: #2f88ff;
     transition: 0.5s;
@@ -44,15 +54,20 @@ const headerButtonStyle = css`
 
 export default function Header() {
   return (
-    <nav css={headerStyle}>
+    <div css={headerStyle}>
+      <nav css={buttonsNavStyle}>
+        <Link href="./">
+          <button css={headerButtonStyle}>Home</button>
+        </Link>
+      </nav>
+
       <nav css={buttonsNavStyle}>
         <a css={faviconStyle}>
           <Image src={iconJoggingHeader} alt="icon jogging header" />
         </a>
-        <Link href="./">
-          <button css={headerButtonStyle}>Home </button>
-        </Link>
+        <nav css={h1Style}>Sportify</nav>
       </nav>
+
       <nav css={buttonsNavStyle}>
         <Link href="./register">
           <button css={headerButtonStyle}>Register</button>
@@ -62,6 +77,6 @@ export default function Header() {
           <button css={headerButtonStyle}>Login</button>
         </Link>
       </nav>
-    </nav>
+    </div>
   );
 }

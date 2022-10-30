@@ -15,6 +15,7 @@ import iconSwimming from '../public/iconSwimming.svg';
 import iconTableTennis from '../public/iconTableTennis.svg';
 import iconTennis from '../public/iconTennis.svg';
 import iconVolleyBall from '../public/iconVolleyBall.svg';
+import sportsBackground from '../public/sportsBackground.jpg';
 
 const iconDivStyle = css`
   padding-left: 300 px;
@@ -26,7 +27,11 @@ const iconDivStyle = css`
   justify-content: center;
   align-items: stretch;
 `;
-
+const backgroundPicture = css`
+  max-width: 100%;
+  height: auto;
+  background-size: cover;
+`;
 const iconStyle = css`
   @keyframes float {
     0% {
@@ -46,27 +51,14 @@ const iconStyle = css`
   transition: 0.15s;
   padding: 10px;
   box-sizing: border-box;
-  border: solid 4px;
+  border: solid 2px;
   border-radius: 20px;
   border-color: black;
   box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
   transform: translatey(0px);
   animation: float 4s ease-in-out infinite;
 `;
-const h1Style = css`
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  padding-top: 30px;
-  font-size: 50px;
-  display: flex;
-  justify-content: center;
 
-  font-size: 70px;
-  font-weight: 600;
-  background-image: linear-gradient(to left, #553c9a, #2f88ff);
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-`;
 const buttonStyle = css`
   border-radius: 5px;
 
@@ -94,8 +86,10 @@ export default function Home() {
   return (
     <body>
       <Header />
-      <h1 css={h1Style}>Sports meetup app</h1>
 
+      <a css={backgroundPicture}>
+        <Image src={sportsBackground} />
+      </a>
       <div css={iconDivStyle}>
         <a css={iconStyle}>
           <Image src={iconBasketball} alt="icon basketball" />
