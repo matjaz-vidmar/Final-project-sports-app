@@ -97,7 +97,6 @@ export default function Register(props: Props) {
 
   return (
     <div>
-      <Header />
       <title>Register</title>
       <meta name="register page" content="register page" />
 

@@ -5,15 +5,13 @@ import iconJoggingHeader from '../public/iconJoggingHeader.svg';
 
 const headerStyle = css`
   display: flex;
-
   justify-content: space-between;
-
   background-color: #e0e0e0;
   max-width: auto;
   position: sticky;
-  top: 0;
+  top: 10px;
   z-index: 2;
-  padding: 20px;
+  padding: 5px;
 `;
 const h1Style = css`
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -23,10 +21,13 @@ const h1Style = css`
   color: #2f88ff;
 `;
 const faviconStyle = css`
-  padding: 6px;
+  padding: 8px;
   border: solid 2px;
-  border-radius: 40px;
+  border-radius: 35px;
   border-color: black;
+  position: relative;
+  justify-content: center;
+  display: flex;
 `;
 const buttonsNavStyle = css`
   gap: 20px;
@@ -34,7 +35,9 @@ const buttonsNavStyle = css`
   align-items: space-between;
   display: flex;
   justify-content: center;
+  position: relative;
 `;
+
 const headerButtonStyle = css`
   border-radius: 5px;
   width: 100px;
@@ -51,10 +54,13 @@ const headerButtonStyle = css`
     transition: 0.5s;
   }
 `;
-
-export default function Header() {
+function Anchor({ children, ...restProps }) {
+  // using a instead of Link since we want to force a full refresh
+  return <a {...restProps}>{children}</a>;
+}
+export default function Header(props) {
   return (
-    <div css={headerStyle}>
+    <header css={headerStyle}>
       <nav css={buttonsNavStyle}>
         <Link href="./">
           <button css={headerButtonStyle}>Home</button>
@@ -67,16 +73,91 @@ export default function Header() {
         </a>
         <nav css={h1Style}>Sportify</nav>
       </nav>
+      <nav css={headerStyle}>
+        <Anchor
+          css={css`
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            margin-right: 20px;
+            width: 150px;
+            height: 40px;
+            left: 85px;
+            top: 250px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 25px;
+            background-color: #e0e0e0;
+            color: black;
+          `}
+        >
+          <a
+            css={css`
+              display: flex;
+              border: solid 2px;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;
+              border-radius: 5px;
+              width: 300px;
+              height: 40px;
+              left: 85px;
+              top: 250px;
+              text-decoration: none;
+              font-family: Verdana, Geneva, Tahoma, sans-serif;
+              font-size: 15px;
+              background-color: #e0e0e0;
+              color: black;
+              :hover {
+                background-color: #2f88ff;
+                transition: 0.5s;
+              }
+            `}
+            href="/private-profile"
+          >
+            Profile:
+            {props.user && props.user.username}
+          </a>
+        </Anchor>
+        {props.user ? (
+          <Anchor
+            css={css`
+              display: flex;
+              border: solid 2px;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;
+              border-radius: 5px;
+              width: 100px;
+              height: 40px;
+              left: 85px;
+              top: 250px;
+              text-decoration: none;
+              font-family: Verdana, Geneva, Tahoma, sans-serif;
+              font-size: 15px;
+              background-color: #e0e0e0;
+              color: black;
+              :hover {
+                background-color: #2f88ff;
+                transition: 0.5s;
+              }
+            `}
+            href="/logout"
+          >
+            Logout
+          </Anchor>
+        ) : (
+          <nav css={buttonsNavStyle}>
+            <Link href="./register">
+              <button css={headerButtonStyle}>Register</button>
+            </Link>
 
-      <nav css={buttonsNavStyle}>
-        <Link href="./register">
-          <button css={headerButtonStyle}>Register</button>
-        </Link>
-
-        <Link href="./login">
-          <button css={headerButtonStyle}>Login</button>
-        </Link>
+            <Link href="./login">
+              <button css={headerButtonStyle}>Login</button>
+            </Link>
+          </nav>
+        )}
       </nav>
-    </div>
+    </header>
   );
 }

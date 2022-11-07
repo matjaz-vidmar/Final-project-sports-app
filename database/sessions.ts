@@ -21,7 +21,7 @@ export async function createSession(
    id,
    token,
    csrf_secret
-  `;
+   `;
 
   await deleteExpiredSessions();
 

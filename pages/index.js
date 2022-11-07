@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Header from '../components/Header';
 import iconArchery from '../public/iconArchery.svg';
 import iconBadminton from '../public/iconBadminton.svg';
 import iconBasketball from '../public/iconBasketball.svg';
@@ -84,9 +83,7 @@ const navButtonsStyle = css`
 
 export default function Home() {
   return (
-    <body>
-      <Header />
-
+    <div>
       <a css={backgroundPicture}>
         <Image src={sportsBackground} />
       </a>
@@ -134,13 +131,13 @@ export default function Home() {
         </a>
       </div>
       <nav css={navButtonsStyle}>
-        <Link href="/login">
+        <a href="/login">
           <button css={buttonStyle}>Login</button>
-        </Link>
-        <Link href={'/register'}>
+        </a>
+        <a href="/register">
           <button css={buttonStyle}>Register</button>
-        </Link>
+        </a>
       </nav>
-    </body>
+    </div>
   );
 }

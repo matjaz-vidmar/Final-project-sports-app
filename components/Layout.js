@@ -4,9 +4,8 @@ import Header from './Header';
 
 const mainStyles = css`
   border: solid 1px;
-  margin-left: 400px;
-  margin-right: 400px;
-  border-top: 30px;
+  margin-left: 300px;
+  margin-right: 300px;
   margin-bottom: 200px;
   padding-bottom: 1000px;
   position: relative;
@@ -16,6 +15,7 @@ const mainStyles = css`
 export default function Layout(props) {
   return (
     <>
+      <Header user={props.user} />
       <main css={mainStyles}>{props.children}</main>
     </>
   );

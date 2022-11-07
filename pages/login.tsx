@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import Header from '../components/Header';
 import { getValidSessionByToken } from '../database/sessions';
 import { LoginResponseBody } from './api/login';
 
@@ -101,14 +100,13 @@ export default function Login(props: Props) {
 
   return (
     <div>
-      <Header />
       <title>Login</title>
       <meta name="login page" content="login page" />
 
       <h2 css={h2Style}>Login</h2>
       {errors.map((error) => {
         return (
-          <p
+          <div
             css={css`
               background-color: red;
               color: white;
@@ -117,7 +115,7 @@ export default function Login(props: Props) {
             key={error.message}
           >
             ERROR: {error.message}
-          </p>
+          </div>
         );
       })}
       <div css={inputDivStyle}>

@@ -1,4 +1,4 @@
-export async function up(sql) {
+exports.up = async (sql) => {
   await sql`
     CREATE TABLE users (
       id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -6,10 +6,10 @@ export async function up(sql) {
       password_hash VARCHAR (70) NOT NULL UNIQUE
     )
   `;
-}
+};
 
-export async function down(sql) {
+exports.down = async (sql) => {
   await sql`
     DROP TABLE users
   `;
-}
+};

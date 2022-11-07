@@ -4,8 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { createSession } from '../../database/sessions';
 import { createUser, getUserByUsername } from '../../database/users';
 import { createSerializedRegisterSessionTokenCookie } from '../../utils/cookies';
-
-// import { createCsrfSecret } from '../../utils/csrf';
+import { createCsrfSecret } from '../../utils/csrf';
 
 export type RegisterResponseBody =
   | { errors: { message: string }[] }
@@ -46,7 +45,7 @@ export default async function handler(
     );
 
     // 5. create a csrf secret
-    // const secret = await createCsrfSecret();
+    const secret = await createCsrfSecret();
     // 6.Create a session token and serialize a cookie with the token
     const session = await createSession(
       userWithoutPassword.id,
