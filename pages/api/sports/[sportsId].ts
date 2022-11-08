@@ -26,16 +26,11 @@ export default async function handler(
   }
 
   if (request.method === 'GET') {
-    // no validation example
-    // const animal = await getAnimalById(animalId);
-
-    // TODO add an example of a query that requires session token validation
     const sport = await getSportByIdAndValidSessionToken(
       sportId,
       request.cookies.sessionToken,
     );
 
-    // check if animal exists on the database
     if (!sport) {
       return response
         .status(404)
@@ -45,7 +40,6 @@ export default async function handler(
     return response.status(200).json(sport);
   }
 
-  // prevent the endpoint to be accessed by cross site requests
   const csrfToken = request.body?.csrfToken;
 
   if (!(await validateTokenWithSecret(session.csrfSecret, csrfToken))) {

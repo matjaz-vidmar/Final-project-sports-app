@@ -44,17 +44,6 @@ export default function Sports(props: Props) {
               <Link href={`/sports/${sport.id}`}>{sport.name}</Link>
             </h2>
 
-            <Link href={`/sports/${sport.id}`}>
-              <a>
-                {/* <Image
-                  src={`/${sport.id}-${sport.name.toLowerCase()}.jpeg`}
-                  alt=""
-                  width="150"
-                  height="150"
-                /> */}
-              </a>
-            </Link>
-
             <div>Type: {sport.name}</div>
           </div>
         );

@@ -22,8 +22,7 @@ export default function SingleSport(props: Props) {
           <meta name="sport" content="Sport not found" />
         </Head>
         <h1>{props.error}</h1>
-        Sorry, try the <Link href="/sports" />
-        sports page
+        Sorry, try the <Link href="/sports">sports page </Link>
       </div>
     );
   }

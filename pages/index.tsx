@@ -131,12 +131,12 @@ export default function Home() {
         </a>
       </div>
       <nav css={navButtonsStyle}>
-        <a href="/login">
+        <Link href="/login">
           <button css={buttonStyle}>Login</button>
-        </a>
-        <a href="/register">
+        </Link>
+        <Link href="/register">
           <button css={buttonStyle}>Register</button>
-        </a>
+        </Link>
       </nav>
     </div>
   );

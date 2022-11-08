@@ -1,3 +1,4 @@
+import Sports from '../pages/sports';
 import { sql } from './connect';
 
 export type Sport = {
@@ -19,7 +20,7 @@ export async function getSportByIdAndValidSessionToken(
   token: string | undefined,
 ) {
   if (!token) return undefined;
-  // STRETCH: Update this adding a role to the users and matching it with the session token
+
   const [sport] = await sql<Sport[]>`
     SELECT
       sports.*
@@ -47,3 +48,5 @@ export async function getSportById(id: number) {
   `;
   return sport;
 }
+
+// insert into sports(name) values ('archery'), ('badminton'), ('basketball'), ('fitness'), ('golf'), ('martial arts'), ('mountain climbing'), ('swimming'), ('tennis'), ('volleyball'), ('table tennis'),

@@ -44,6 +44,7 @@ const headerButtonStyle = css`
   height: 40px;
   left: 85px;
   top: 250px;
+  alig
   text-decoration: none;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 15px;
@@ -68,9 +69,9 @@ export default function Header(props) {
       </nav>
 
       <nav css={buttonsNavStyle}>
-        <a css={faviconStyle}>
+        <div css={faviconStyle}>
           <Image src={iconJoggingHeader} alt="icon jogging header" />
-        </a>
+        </div>
         <nav css={h1Style}>Sportify</nav>
       </nav>
       <nav css={headerStyle}>
@@ -79,6 +80,8 @@ export default function Header(props) {
             display: flex;
             justify-content: center;
             align-items: center;
+            text-decoration: none;
+            border: solid 2px;
             border-radius: 5px;
             margin-right: 20px;
             width: 150px;
@@ -86,38 +89,18 @@ export default function Header(props) {
             left: 85px;
             top: 250px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            font-size: 25px;
+            font-size: 15px;
             background-color: #e0e0e0;
             color: black;
+            :hover {
+              background-color: #2f88ff;
+              transition: 0.5s;
+            }
           `}
+          href="/private-profile"
         >
-          <a
-            css={css`
-              display: flex;
-              border: solid 2px;
-              justify-content: center;
-              align-items: center;
-              flex-direction: column;
-              border-radius: 5px;
-              width: 300px;
-              height: 40px;
-              left: 85px;
-              top: 250px;
-              text-decoration: none;
-              font-family: Verdana, Geneva, Tahoma, sans-serif;
-              font-size: 15px;
-              background-color: #e0e0e0;
-              color: black;
-              :hover {
-                background-color: #2f88ff;
-                transition: 0.5s;
-              }
-            `}
-            href="/private-profile"
-          >
-            Profile:
-            {props.user && props.user.username}
-          </a>
+          Profile:
+          {props.user && props.user.username}
         </Anchor>
         {props.user ? (
           <Anchor
