@@ -1,4 +1,5 @@
 import { css, Global } from '@emotion/react';
+import { NextUIProvider } from '@nextui-org/react';
 import { useCallback, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 
@@ -20,7 +21,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Layout user={user}>
-        <Component {...pageProps} refreshUserProfile={refreshUserProfile} />;
+        <NextUIProvider>
+          <Component {...pageProps} refreshUserProfile={refreshUserProfile} />;
+        </NextUIProvider>
       </Layout>
     </>
   );

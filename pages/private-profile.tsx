@@ -1,16 +1,29 @@
 import { css } from '@emotion/react';
 import { Dropdown } from '@nextui-org/react';
+import { validateHeaderValue } from 'http';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
-import { useState } from 'react';
-import { getSportById, Sport } from '../database/sports';
+import Image from 'next/image';
+import { useMemo, useState } from 'react';
+import { getSportById, getSports, Sport } from '../database/sports';
 import { getUserBySessionToken, User } from '../database/users';
+import badminton2 from '../public/badminton2.svg';
+import basketball3 from '../public/basketball3.svg';
+import fitness4 from '../public/fitness4.svg';
+import golf5 from '../public/golf5.svg';
+import archery1 from '../public/icons/archery1.svg';
+import martialArts6 from '../public/martialArts6.svg';
+import mountainClimbing7 from '../public/mountainClimbing7.svg';
+import swimming8 from '../public/swimming8.svg';
+import tableTennis11 from '../public/tableTennis11.svg';
+import tennis9 from '../public/tennis9.svg';
+import volleyball10 from '../public/volleyball10.svg';
 import { parseIntFromContextQuery } from '../utils/contextQuery';
+import Sports from './sports';
 
 type Props = {
   user?: User;
-  sport: Sport;
+  sport?: Sport;
 };
 
 export default function UserProfile(props: Props) {
@@ -72,23 +85,32 @@ export default function UserProfile(props: Props) {
     height: 50px;
     left: 85px;
     top: 250px;
+    margin-bottom: 20px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 25px;
-    text-decoration: none;
+    a {
+      text-decoration: none;
+      color: #fdfc8d;
+    }
     background-color: black;
-    color: #fdfc8d;
     margin-top: 20px;
     :hover {
       background-color: #2f88ff;
       transition: 0.5s;
     }
   `;
+
   const gridWrapperStyle = css`
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding-left: 20px;
   `;
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState(new Set([]));
+  const selectedValue = useMemo(
+    () => Array.from(selected).join(', ').replaceAll('_', ' '),
+    [selected],
+  );
+  console.log(selectedValue);
   return (
     <>
       <Head>
@@ -107,30 +129,47 @@ export default function UserProfile(props: Props) {
           <button css={buttonStyle}>Delete user</button>
         </div>
         <div>
-          <a href="./sports">
-            <button css={buttonStyleSports}>Available sports</button>
-          </a>
+          <button css={buttonStyleSports}>
+            <a href="./sports">Available sports</a>
+          </button>
+
           <Dropdown>
-            <Dropdown.Button
-              flat
-              color="secondary"
-              css={{ tt: 'capitalize' }}
-            ></Dropdown.Button>
+            <Dropdown.Button shadow color="primary" css={{ tt: 'capitalize' }}>
+              {selectedValue}
+            </Dropdown.Button>
+
             <Dropdown.Menu
               aria-label="Multiple selection actions"
-              color="secondary"
+              background-color=" #2f88ff"
               disallowEmptySelection
               selectionMode="multiple"
-              // selectedKeys={selected}
-              // onSelectionChange={setSelected}
+              selectedKeys={selected}
+              onSelectionChange={setSelected}
+              text-color="primary"
+              color="primary"
             >
-              <Dropdown.Item key="text">{props.sport.name}</Dropdown.Item>
-              <Dropdown.Item key="number">Number</Dropdown.Item>
-              <Dropdown.Item key="date">Date</Dropdown.Item>
-              <Dropdown.Item key="single_date">Single Date</Dropdown.Item>
-              <Dropdown.Item key="iteration">Iteration</Dropdown.Item>
+              {props.sport?.map((sport) => {
+                return (
+                  <Dropdown.Item
+                    key={sport.name}
+                    textColor="default"
+                    variant="flat"
+                  >
+                    <Image
+                      width={24}
+                      height={24}
+                      src={`/public/icon/${sport.name}${sport.id}.svg`}
+                      alt="sports"
+                    />
+                    {sport?.name}
+                  </Dropdown.Item>
+                );
+              })}
             </Dropdown.Menu>
           </Dropdown>
+          <button css={buttonStyleSports}>
+            <a>Confirm selection</a>
+          </button>
         </div>
       </nav>
     </>
@@ -138,20 +177,10 @@ export default function UserProfile(props: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const sportId = parseIntFromContextQuery(context.query.sportId);
   const token = context.req.cookies.sessionToken;
-
   const user = token && (await getUserBySessionToken(token));
-  const sport = sportId && (await getSportById(sportId));
+  const sport = await getSports();
 
-  if (typeof sport === 'undefined') {
-    context.res.statusCode = 404;
-    return {
-      props: {
-        error: 'Sport not found',
-      },
-    };
-  }
   if (!user) {
     return {
       redirect: {
@@ -162,6 +191,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   return {
-    props: { user: user, sport: sport },
+    props: { user, sport },
   };
 }
