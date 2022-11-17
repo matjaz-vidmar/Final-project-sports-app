@@ -73,6 +73,21 @@ export async function createUser(username: string, password_hash: string) {
 
   return userWithoutPassword!;
 }
+// export async function createUserWithSports(username: string, sport: string) {
+//   const [userWithSports] = await sql<
+//     { id: number; username: string; sport: string }[]
+//   >`
+//   INSERT INTO users_sports
+//     ( user_id, sports_id)
+//   VALUES
+//     (${userId}, ${sportsId})
+//   RETURNING
+//     id,
+//     username
+//   `;
+
+//   return userWithSports!;
+// }
 export async function getUserByIdWithSports(userId: number) {
   const userWithSports = await sql<UserWithSports[]>`
     SELECT

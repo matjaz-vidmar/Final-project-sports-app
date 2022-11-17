@@ -1,4 +1,3 @@
-import Sports from '../pages/sports';
 import { sql } from './connect';
 
 export type Sport = {

@@ -8,15 +8,22 @@ import { getSports, Sport } from '../../database/sports';
 const sportStyles = css`
   border-radius: 15px;
   border: 1px solid #ccc;
-  padding: 20px;
-
+  align-items: center;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
   h2 {
-    margin-top: 0;
+    margin-left: 15px;
   }
 
   & + & {
     margin-top: 25px;
   }
+`;
+const h1Style = css`
+  display: flex;
+  justify-content: center;
 `;
 
 type Props = {
@@ -31,7 +38,7 @@ export default function Sports(props: Props) {
         <meta name="description" content="List page of all sports" />
       </Head>
 
-      <h1>Sports</h1>
+      <h1 css={h1Style}>List of sports</h1>
 
       {props.sports.map((sport) => {
         return (
@@ -40,11 +47,16 @@ export default function Sports(props: Props) {
             key={`sport-${sport.id}`}
             css={sportStyles}
           >
+            <Image
+              height={40}
+              width={40}
+              src={`/../public/${sport.id}.png`}
+              alt={`${sport.name}${sport.id}`}
+            />
+
             <h2>
               <Link href={`/sports/${sport.id}`}>{sport.name}</Link>
             </h2>
-
-            <div>Type: {sport.name}</div>
           </div>
         );
       })}

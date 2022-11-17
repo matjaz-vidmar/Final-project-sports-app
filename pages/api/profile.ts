@@ -37,4 +37,17 @@ export default async function handler(
   } else {
     response.status(405).json({ errors: [{ message: 'method not allowed' }] });
   }
+
+  //   const userWithSports = await getUserByIdWithSports(id);
+  //   if (!id) {
+  //     response
+  //       .status(400)
+  //       .json({ errors: [{ message: 'Session token not valid' }] });
+  //     return;
+
+  //     response.status(200).json({ id: userWithSports.id });
+  //   } else {
+  //     response.status(405).json({ errors: [{ message: 'method not allowed' }] });
+  //   }
+  // }
 }

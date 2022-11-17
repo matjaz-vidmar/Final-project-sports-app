@@ -1,9 +1,10 @@
 import { css } from '@emotion/react';
-import { Dropdown } from '@nextui-org/react';
+import { Dropdown, StyledUserName } from '@nextui-org/react';
 import { validateHeaderValue } from 'http';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { getSportById, getSports, Sport } from '../database/sports';
 import { getUserBySessionToken, User } from '../database/users';
@@ -24,9 +25,32 @@ import Sports from './sports';
 type Props = {
   user?: User;
   sport?: Sport;
+  refreshUserProfile: () => Promise<void>;
 };
 
 export default function UserProfile(props: Props) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState<{ message: string }[]>([]);
+  const router = useRouter();
+
+  async function saveSportsHandler() {
+    const saveSportsResponse = await fetch('api/userWithSports', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        sportId: selectedValue,
+      }),
+    });
+    const saveSportsResponseBody =
+      (await saveSportsResponse.json()) as userWiResponseBody;
+    if ('errors' in saveSportsResponseBody) {
+      return console.log(saveSportsResponseBody.errors);
+      await props.refreshUserProfile();
+    }
+  }
   if (!props.user) {
     return (
       <div>
@@ -158,7 +182,7 @@ export default function UserProfile(props: Props) {
                     <Image
                       width={24}
                       height={24}
-                      src={`/public/icon/${sport.name}${sport.id}.svg`}
+                      src={`/public/${sport.id}.png`}
                       alt="sports"
                     />
                     {sport?.name}
@@ -167,7 +191,12 @@ export default function UserProfile(props: Props) {
               })}
             </Dropdown.Menu>
           </Dropdown>
-          <button css={buttonStyleSports}>
+          <button
+            css={buttonStyleSports}
+            onClick={async () => {
+              await saveSportsHandler();
+            }}
+          >
             <a>Confirm selection</a>
           </button>
         </div>
