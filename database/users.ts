@@ -1,4 +1,5 @@
 import { sql } from './connect';
+import { SportsSelection } from './sportsSelection';
 
 export type User = {
   id: number;
@@ -6,6 +7,7 @@ export type User = {
   passwordHash: string;
   email: string;
   address: string;
+  sportsSelection: SportsSelection[];
 };
 
 export type UserWithSports = {
@@ -20,7 +22,10 @@ export async function getUserByUsername(username: string) {
   const [user] = await sql<{ id: number; username: string }[]>`
   SELECT
     id,
-    username
+    username,
+    email,
+    address,
+    sportsSelection
   FROM
     users
   WHERE
@@ -42,14 +47,51 @@ export async function getUserWithPasswordHashByUsername(username: string) {
 
   return user;
 }
+
+export async function getEmailAddress(email: string) {
+  if (!email) return undefined;
+
+  const emailAddress = await sql<User[]>`
+SELECT
+  email
+FROM
+  users
+WHERE
+  email = ${email}
+  `;
+  return emailAddress;
+}
+export async function getAddress(address: string) {
+  if (!address) return undefined;
+
+  const addressPlace: string = await sql<[User[]]>`
+SELECT
+  address
+FROM
+  users
+WHERE
+  address = ${address}
+  `;
+  return addressPlace;
+}
 export async function getUserBySessionToken(token: string) {
   if (!token) return undefined;
 
-  const [user] = await sql<{ id: number; username: string }[]>`
+  const [user] = await sql<
+    {
+      id: number;
+      username: string;
+      email: string;
+      address: string;
+      sportsSelection: [];
+    }[]
+  >`
   SELECT
     users.id,
-    users.username
-
+    users.username,
+    email,
+    address,
+    sportsSelection
   FROM
     users,
     sessions
@@ -60,35 +102,59 @@ export async function getUserBySessionToken(token: string) {
   `;
   return user;
 }
-export async function createUser(username: string, password_hash: string) {
-  const [userWithoutPassword] = await sql<{ id: number; username: string }[]>`
-  INSERT INTO users
-    (username, password_hash)
-  VALUES
-    (${username}, ${password_hash})
-  RETURNING
+// export async function createUser(
+//   username: string,
+//   password_hash: string,
+//   email: string,
+//   address: string,
+// ) {
+//   const [userWithoutPassword] = await sql<
+//     { id: number; username: string; email: string; address: string }[]>`
+//   INSERT INTO users
+//     (username, password_hash, email, address)
+//   VALUES
+//     (${username}, ${password_hash}, ${email}, ${address})
+//   RETURNING
+//     id,
+//     username,
+//     email,
+//     address
+//   `;
+
+//   return userWithoutPassword!;
+// }
+export async function createUser(
+  username: string,
+  password_hash: string,
+  email: string,
+  address: string,
+  sportsSelection: [],
+) {
+  const [userWithoutPassword] = await sql<
+    {
+      id: number;
+      username: string;
+      email: string;
+      address: string;
+      sportsSelection: [];
+    }[]
+  >`
+   INSERT INTO users
+    (username, password_hash, email, address, sportsSelection)
+    VALUES
+    (${username}, ${password_hash}, ${email}, ${address}, ${sportsSelection})
+    RETURNING
     id,
-    username
+    username,
+    email,
+    address,
+    sportsSelection
   `;
 
   return userWithoutPassword!;
 }
-// export async function createUserWithSports(username: string, sport: string) {
-//   const [userWithSports] = await sql<
-//     { id: number; username: string; sport: string }[]
-//   >`
-//   INSERT INTO users_sports
-//     ( user_id, sports_id)
-//   VALUES
-//     (${userId}, ${sportsId})
-//   RETURNING
-//     id,
-//     username
-//   `;
-
-//   return userWithSports!;
-// }
-export async function getUserByIdWithSports(userId: number) {
+export async function getUserByIdWithSports(userId: number, token: string) {
+  if (!token) return undefined;
   const userWithSports = await sql<UserWithSports[]>`
     SELECT
       users.id AS user_id,
@@ -97,12 +163,29 @@ export async function getUserByIdWithSports(userId: number) {
       sports.name AS sports_name
     FROM
       users
-    INNER JOIN
-      user_sports ON users.id = user_sports.users_id
-    INNER JOIN
-      sports ON user_sports.sport_id = sports.id
+      sports
     WHERE
-      users.id = ${userId}
+      users.id = ${userId} AND
+      sports.user_id = ${userId} AND
+      sports.id = users_sports.sport.id
   `;
   return userWithSports;
 }
+// export async function getUserByIdWithSports(userId: number) {
+//   const userWithSports = await sql<UserWithSports[]>`
+//     SELECT
+//       users.id AS user_id,
+//       users.username AS user_username,
+//       sports.id AS sports_id,
+//       sports.name AS sports_name
+//     FROM
+//       users
+//     INNER JOIN
+//       user_sports ON users.id = user_sports.users_id
+//     INNER JOIN
+//       sports ON user_sports.sport_id = sports.id
+//     WHERE
+//       users.id = ${userId}
+//   `;
+//   return userWithSports;
+// }

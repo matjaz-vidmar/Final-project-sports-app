@@ -29,28 +29,30 @@ type Props = {
 };
 
 export default function UserProfile(props: Props) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  // const [username, setUsername] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [address, setAddress] = useState('');
   const [errors, setErrors] = useState<{ message: string }[]>([]);
   const router = useRouter();
 
-  async function saveSportsHandler() {
-    const saveSportsResponse = await fetch('api/userWithSports', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        sportId: selectedValue,
-      }),
-    });
-    const saveSportsResponseBody =
-      (await saveSportsResponse.json()) as userWiResponseBody;
-    if ('errors' in saveSportsResponseBody) {
-      return console.log(saveSportsResponseBody.errors);
-      await props.refreshUserProfile();
-    }
-  }
+  // async function saveSportsHandler() {
+  //   const saveSportsResponse = await fetch('api/userWithSports', {
+  //     method: 'POST',
+  //     headers: {
+  //       'content-type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       sportId: selectedValue,
+  //     }),
+  //   });
+  //   const saveSportsResponseBody =
+  //     (await saveSportsResponse.json()) as userWiResponseBody;
+  //   if ('errors' in saveSportsResponseBody) {
+  //     return console.log(saveSportsResponseBody.errors);
+  //     await props.refreshUserProfile();
+  //   }
+  // }
   if (!props.user) {
     return (
       <div>
@@ -145,11 +147,9 @@ export default function UserProfile(props: Props) {
         <div css={personalInfoStyles}>
           Username: {props.user.username}
           <br />
-          E-mail: vidmar@sports.io
+          E-mail: {props.user.email}
           <br />
-          Address: Alser Straße 21, <br />
-          1080 Wien <br />
-          Personal description: ...
+          Address: {props.user.address} <br />
           <button css={buttonStyle}>Delete user</button>
         </div>
         <div>
@@ -179,12 +179,6 @@ export default function UserProfile(props: Props) {
                     textColor="default"
                     variant="flat"
                   >
-                    <Image
-                      width={24}
-                      height={24}
-                      src={`/public/${sport.id}.png`}
-                      alt="sports"
-                    />
                     {sport?.name}
                   </Dropdown.Item>
                 );

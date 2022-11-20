@@ -9,7 +9,8 @@ const headerStyle = css`
   background-color: #e0e0e0;
   max-width: auto;
   position: sticky;
-  top: 10px;
+  top: 0;
+  opacity: 90%;
   z-index: 2;
   padding: 5px;
 `;
@@ -44,7 +45,7 @@ const headerButtonStyle = css`
   height: 40px;
   left: 85px;
   top: 250px;
-  alig
+
   text-decoration: none;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 15px;

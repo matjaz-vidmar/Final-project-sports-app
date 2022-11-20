@@ -75,10 +75,30 @@ const buttonStyle = css`
   }
 `;
 const navButtonsStyle = css`
-  padding-top: 100px;
+  padding-top: 60px;
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 20px;
+`;
+const h1Style = css`
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 35px;
+  padding-top: 3px;
+  font-weight: 650;
+  color: black;
+  display: flex;
+  justify-content: center;
+  padding-top: 80px;
+`;
+const h2Style = css`
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 50px;
+  padding-top: 3px;
+  font-weight: 650;
+  color: black;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
 `;
 
 export default function Home() {
@@ -130,12 +150,17 @@ export default function Home() {
           <Image src={iconVolleyBall} alt="icon volleyball" />
         </a>
       </div>
+      <h2 css={h1Style}>Want to connect to other sports enthusiasts? </h2>
+      <br />
+      <h2 css={h2Style}>Register or login below!</h2>
+
       <nav css={navButtonsStyle}>
-        <Link href="/login">
-          <button css={buttonStyle}>Login</button>
-        </Link>
         <Link href="/register">
           <button css={buttonStyle}>Register</button>
+        </Link>
+
+        <Link href="/login">
+          <button css={buttonStyle}>Login</button>
         </Link>
       </nav>
     </div>

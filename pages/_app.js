@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
   const refreshUserProfile = useCallback(async () => {
     const profileResponse = await fetch('/api/profile');
     const profileResponseBody = await profileResponse.json();
-
+    console.log(user);
     if ('errors' in profileResponseBody) {
       setUser(undefined);
     } else {

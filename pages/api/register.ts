@@ -2,7 +2,13 @@ import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createSession } from '../../database/sessions';
-import { createUser, getUserByUsername } from '../../database/users';
+import {
+  createUser,
+  getAddress,
+  getEmailAddress,
+  getUserByIdWithSports,
+  getUserByUsername,
+} from '../../database/users';
 import { createSerializedRegisterSessionTokenCookie } from '../../utils/cookies';
 import { createCsrfSecret } from '../../utils/csrf';
 
@@ -19,22 +25,61 @@ export default async function handler(
     if (
       typeof request.body.username !== 'string' ||
       typeof request.body.password !== 'string' ||
+      typeof request.body.email !== 'string' ||
+      typeof request.body.address !== 'string' ||
+      typeof request.body.sportsSelection !== 'string' ||
       !request.body.username ||
-      !request.body.password
+      !request.body.password ||
+      !request.body.email ||
+      !request.body.address ||
+      !request.body.sportsSelection
     ) {
-      return response
-        .status(400)
-        .json({ errors: [{ message: 'username or password not provided' }] });
+      return response.status(400).json({
+        errors: [
+          {
+            message:
+              'username, password, email, address or sports selection not provided',
+          },
+        ],
+      });
     }
     // 2.we check if the user already exist
-    const user = await getUserByUsername(request.body.username);
+    // const userByIdWithSports = await getUserByIdWithSports(
+    //   request.body.userId,
+    //   request.cookies.sessionToken,
+    // );
 
-    if (user) {
-      return response
-        .status(401)
-        .json({ errors: [{ message: 'username is already taken' }] });
+    // if (userByIdWithSports?.length) {
+    //   return response
+    //     .status(401)
+    //     .json({ errors: [{ message: 'username is already taken' }] });
+    // }
+
+    // const userId = request.body?.userId;
+    // const sportsSelection = request.body?.sportsSelection;
+
+    // 2.we check if the user already exist
+    const email = await getEmailAddress(request.body.email);
+
+    if (!email) {
+      return response.status(401).json({
+        errors: [
+          {
+            message: 'e-mail format is not correct or e-mail is already taken',
+          },
+        ],
+      });
     }
-
+    const address = await getAddress(request.body.address);
+    if (!address) {
+      return response.status(401).json({
+        errors: [
+          {
+            message: 'given address is already taken',
+          },
+        ],
+      });
+    }
     // 3. we hash the password
     const passwordHash = await bcrypt.hash(request.body.password, 12);
 
@@ -42,6 +87,9 @@ export default async function handler(
     const userWithoutPassword = await createUser(
       request.body.username,
       passwordHash,
+      request.body.email,
+      request.body.address,
+      request.body.sportsSelection,
     );
 
     // 5. create a csrf secret
