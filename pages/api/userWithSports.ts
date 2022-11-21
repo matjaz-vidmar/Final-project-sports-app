@@ -53,9 +53,9 @@ export default async function handler(
         .status(401)
         .json({ errors: [{ message: 'username is already taken' }] });
     }
-    const userWithSports = await getUserByIdWithSports(request.body.id);
-    response.status(200).json({ user: { username: userWithSports } });
-  } else {
-    response.status(401).json({ errors: [{ message: 'Method not allowed' }] });
-  }
-}
+//   //   const userWithSports = await getUserByIdWithSports(request.body.id);
+//   //   response.status(200).json({ user: { username: userWithSports } });
+//   // } else {
+//   //   response.status(401).json({ errors: [{ message: 'Method not allowed' }] });
+ }
+// }

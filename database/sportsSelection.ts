@@ -1,17 +1,17 @@
 import { sql } from './connect';
 
-export type SportsSelection = {
+export type SelectedValue = {
   id: number;
   name: string;
 };
 
 export async function getAllSports() {
-  const sportsSelection = await sql<SportsSelection[]>`
+  const selectedValue = await sql<SelectedValue[]>`
     SELECT
       id,
       name
     FROM
       sports
   `;
-  return sportsSelection;
+  return selectedValue;
 }

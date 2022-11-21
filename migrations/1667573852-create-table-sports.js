@@ -1,9 +1,8 @@
 exports.up = async (sql) => {
   await sql`
     CREATE TABLE sports (
-      id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+      id integer PRIMARY KEY,
       name VARCHAR (90) NOT NULL
-
     )
   `;
 };

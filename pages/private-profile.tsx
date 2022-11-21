@@ -78,6 +78,18 @@ export default function UserProfile(props: Props) {
     background-clip: text;
     -webkit-background-clip: text;
   `;
+  const h3Style = css`
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding-top: 30px;
+    display: flex;
+    justify-content: flex-start;
+    font-size: 35px;
+    font-weight: 600;
+    background-image: linear-gradient(to left, #553c9a, #2f88ff);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+  `;
 
   const personalInfoStyles = css`
     font-size: 30px;
@@ -131,12 +143,12 @@ export default function UserProfile(props: Props) {
     grid-template-columns: 1fr 1fr;
     padding-left: 20px;
   `;
-  const [selected, setSelected] = useState(new Set([]));
-  const selectedValue = useMemo(
-    () => Array.from(selected).join(', ').replaceAll('_', ' '),
-    [selected],
-  );
-  console.log(selectedValue);
+  // const [selected, setSelected] = useState(new Set([]));
+  // const selectedValue = useMemo(
+  //   () => Array.from(selected).join(', ').replaceAll('_', ' '),
+  //   [selected],
+  // );
+
   return (
     <>
       <Head>
@@ -156,43 +168,17 @@ export default function UserProfile(props: Props) {
           <button css={buttonStyleSports}>
             <a href="./sports">Available sports</a>
           </button>
+          <label>
+            <h3 css={h3Style}>Selected sports:</h3>
+            <br />
+            {props.user.sportsSelection}
+          </label>
 
-          <Dropdown>
-            <Dropdown.Button shadow color="primary" css={{ tt: 'capitalize' }}>
-              {selectedValue}
-            </Dropdown.Button>
-
-            <Dropdown.Menu
-              aria-label="Multiple selection actions"
-              background-color=" #2f88ff"
-              disallowEmptySelection
-              selectionMode="multiple"
-              selectedKeys={selected}
-              onSelectionChange={setSelected}
-              text-color="primary"
-              color="primary"
-            >
-              {props.sport?.map((sport) => {
-                return (
-                  <Dropdown.Item
-                    key={sport.name}
-                    textColor="default"
-                    variant="flat"
-                  >
-                    {sport?.name}
-                  </Dropdown.Item>
-                );
-              })}
-            </Dropdown.Menu>
-          </Dropdown>
-          <button
-            css={buttonStyleSports}
-            onClick={async () => {
-              await saveSportsHandler();
-            }}
-          >
-            <a>Confirm selection</a>
-          </button>
+          {/* <ul>
+            {props.user.sportsSelection.map((sports) => {
+              return <li key={sports.name}>{sports.name}</li>;
+            })}
+          </ul> */}
         </div>
       </nav>
     </>

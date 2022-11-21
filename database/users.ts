@@ -1,5 +1,6 @@
 import { sql } from './connect';
-import { SportsSelection } from './sportsSelection';
+import { Sport, SportWithVenues } from './sports';
+import { SelectedValue } from './sportsSelection';
 
 export type User = {
   id: number;
@@ -7,7 +8,7 @@ export type User = {
   passwordHash: string;
   email: string;
   address: string;
-  sportsSelection: SportsSelection[];
+  sportsSelection: SelectedValue[];
 };
 
 export type UserWithSports = {
@@ -25,7 +26,7 @@ export async function getUserByUsername(username: string) {
     username,
     email,
     address,
-    sportsSelection
+    sports_selection
   FROM
     users
   WHERE
@@ -83,15 +84,15 @@ export async function getUserBySessionToken(token: string) {
       username: string;
       email: string;
       address: string;
-      sportsSelection: [];
+      selectedValue: [];
     }[]
   >`
   SELECT
     users.id,
     users.username,
-    email,
-    address,
-    sportsSelection
+    users.email,
+    users.address,
+    sports_selection
   FROM
     users,
     sessions
@@ -128,7 +129,7 @@ export async function createUser(
   password_hash: string,
   email: string,
   address: string,
-  sportsSelection: [],
+  selectedValue: [],
 ) {
   const [userWithoutPassword] = await sql<
     {
@@ -136,19 +137,19 @@ export async function createUser(
       username: string;
       email: string;
       address: string;
-      sportsSelection: [];
+      selectedValue: [];
     }[]
   >`
    INSERT INTO users
-    (username, password_hash, email, address, sportsSelection)
+    (username, password_hash, email, address, sports_selection)
     VALUES
-    (${username}, ${password_hash}, ${email}, ${address}, ${sportsSelection})
+    (${username}, ${password_hash}, ${email}, ${address}, ${selectedValue})
     RETURNING
     id,
     username,
     email,
     address,
-    sportsSelection
+    sports_selection
   `;
 
   return userWithoutPassword!;

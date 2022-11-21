@@ -5,8 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { relative } from 'path';
-import { inherits } from 'util';
 import { getSportById, Sport } from '../../database/sports';
+import { getVenuesBySportId, Venue } from '../../database/venues';
 import { parseIntFromContextQuery } from '../../utils/contextQuery';
 
 type Props =
@@ -15,7 +15,11 @@ type Props =
     }
   | {
       singleSport: Sport;
+    }
+  | {
+      venueBySport: Venue[];
     };
+
 const sportDivStyle = css`
   display: grid;
   flex-direction: column;
@@ -64,6 +68,10 @@ export default function SingleSport(props: Props) {
           height={500}
           objectFit={'contain'}
         />
+        {props.venueBySport.map((venue) => {
+          return <div>{venue.name}</div>;
+        })}
+        {/* <div>{props.venueBySport.name}</br>{props.venueBySport.address}</div> */}
       </nav>
     </div>
   );
@@ -84,7 +92,15 @@ export async function getServerSideProps(
   }
 
   const foundSport = await getSportById(sportId);
-
+  const foundSportWithVenue = await getVenuesBySportId(sportId);
+  if (typeof foundSportWithVenue === 'undefined') {
+    context.res.statusCode = 404;
+    return {
+      props: {
+        error: 'Sport not found',
+      },
+    };
+  }
   if (typeof foundSport === 'undefined') {
     context.res.statusCode = 404;
     return {
@@ -93,10 +109,12 @@ export async function getServerSideProps(
       },
     };
   }
+  console.log(foundSportWithVenue);
 
   return {
     props: {
       singleSport: foundSport,
+      venueBySport: foundSportWithVenue,
     },
   };
 }

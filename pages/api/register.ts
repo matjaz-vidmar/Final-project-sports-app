@@ -22,17 +22,18 @@ export default async function handler(
 ) {
   if (request.method === 'POST') {
     // 1. make sure the data exist
+    console.log(typeof request.body.selectedValue);
     if (
       typeof request.body.username !== 'string' ||
       typeof request.body.password !== 'string' ||
       typeof request.body.email !== 'string' ||
       typeof request.body.address !== 'string' ||
-      typeof request.body.sportsSelection !== 'string' ||
+      typeof request.body.selectedValue !== 'string' ||
       !request.body.username ||
       !request.body.password ||
       !request.body.email ||
       !request.body.address ||
-      !request.body.sportsSelection
+      !request.body.selectedValue
     ) {
       return response.status(400).json({
         errors: [
@@ -89,7 +90,7 @@ export default async function handler(
       passwordHash,
       request.body.email,
       request.body.address,
-      request.body.sportsSelection,
+      request.body.selectedValue,
     );
 
     // 5. create a csrf secret
