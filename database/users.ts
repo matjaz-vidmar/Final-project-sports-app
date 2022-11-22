@@ -18,6 +18,11 @@ export type UserWithSports = {
   sportName: string;
 };
 
+export type MatchedUsersContent = {
+  id: number;
+  username: string;
+};
+
 export async function getUserByUsername(username: string) {
   if (!username) return undefined;
   const [user] = await sql<{ id: number; username: string }[]>`
@@ -62,6 +67,17 @@ WHERE
   `;
   return emailAddress;
 }
+
+export async function getUsers() {
+  const users = await sql<{ id: number; username: string }[]>`
+  SELECT
+    id,
+    username
+  FROM
+    users
+`;
+  return users;
+}
 export async function getAddress(address: string) {
   if (!address) return undefined;
 
@@ -103,27 +119,7 @@ export async function getUserBySessionToken(token: string) {
   `;
   return user;
 }
-// export async function createUser(
-//   username: string,
-//   password_hash: string,
-//   email: string,
-//   address: string,
-// ) {
-//   const [userWithoutPassword] = await sql<
-//     { id: number; username: string; email: string; address: string }[]>`
-//   INSERT INTO users
-//     (username, password_hash, email, address)
-//   VALUES
-//     (${username}, ${password_hash}, ${email}, ${address})
-//   RETURNING
-//     id,
-//     username,
-//     email,
-//     address
-//   `;
 
-//   return userWithoutPassword!;
-// }
 export async function createUser(
   username: string,
   password_hash: string,
@@ -151,42 +147,45 @@ export async function createUser(
     address,
     sports_selection
   `;
-
   return userWithoutPassword!;
 }
-export async function getUserByIdWithSports(userId: number, token: string) {
-  if (!token) return undefined;
-  const userWithSports = await sql<UserWithSports[]>`
+export async function getUserBySportId(sportId: Sport['id']) {
+  const userWithSports = await sql<User[]>`
     SELECT
-      users.id AS user_id,
-      users.username AS user_username,
-      sports.id AS sports_id,
-      sports.name AS sports_name
+      users.*,
+      sports.*,
+      sports_selection.*
     FROM
       users
       sports
     WHERE
-      users.id = ${userId} AND
-      sports.user_id = ${userId} AND
-      sports.id = users_sports.sport.id
+     users.sports_selection.id =${sportId}
+
   `;
   return userWithSports;
 }
-// export async function getUserByIdWithSports(userId: number) {
-//   const userWithSports = await sql<UserWithSports[]>`
-//     SELECT
-//       users.id AS user_id,
-//       users.username AS user_username,
-//       sports.id AS sports_id,
-//       sports.name AS sports_name
-//     FROM
-//       users
-//     INNER JOIN
-//       user_sports ON users.id = user_sports.users_id
-//     INNER JOIN
-//       sports ON user_sports.sport_id = sports.id
-//     WHERE
-//       users.id = ${userId}
-//   `;
-//   return userWithSports;
-// }
+
+export async function getMatchedUserSportsByUsername(username: string) {
+  if (!username) return undefined;
+  const matchedUsers = await sql<MatchedUsersContent[]>`
+      -- SELECT
+      --   users.username AS username,
+      --   users.sports_selection AS sportsSelection
+      -- FROM
+      --   users AS users_1
+      -- LEFT JOIN
+      --   users.username ON users_1
+      -- WHERE
+      --   users.username = ${username} AND
+      --   users.sports_selection = sportsSelection
+
+      SELECT
+        users.username,
+        users.sports_selection,
+        sports_selection.name
+      FROM users AS users_1
+      LEFT JOIN users_2 ON users_1.username = users.username AND users_1.sports_selection = sports_selection
+
+    `;
+  return [matchedUsers];
+}

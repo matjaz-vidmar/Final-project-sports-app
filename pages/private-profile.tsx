@@ -4,10 +4,15 @@ import { validateHeaderValue } from 'http';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { getSportById, getSports, Sport } from '../database/sports';
-import { getUserBySessionToken, User } from '../database/users';
+import {
+  getMatchedUserSportsByUsername,
+  getUserBySessionToken,
+  User,
+} from '../database/users';
 import badminton2 from '../public/badminton2.svg';
 import basketball3 from '../public/basketball3.svg';
 import fitness4 from '../public/fitness4.svg';
@@ -25,14 +30,11 @@ import Sports from './sports';
 type Props = {
   user?: User;
   sport?: Sport;
+  matchedUser?: User;
   refreshUserProfile: () => Promise<void>;
 };
 
 export default function UserProfile(props: Props) {
-  // const [username, setUsername] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [address, setAddress] = useState('');
   const [errors, setErrors] = useState<{ message: string }[]>([]);
   const router = useRouter();
 
@@ -85,6 +87,7 @@ export default function UserProfile(props: Props) {
     justify-content: flex-start;
     font-size: 35px;
     font-weight: 600;
+    padding-bottom: 30px;
     background-image: linear-gradient(to left, #553c9a, #2f88ff);
     color: transparent;
     background-clip: text;
@@ -171,9 +174,14 @@ export default function UserProfile(props: Props) {
           <label>
             <h3 css={h3Style}>Selected sports:</h3>
             <br />
-            {props.user.sportsSelection}
           </label>
 
+          {props.user.sportsSelection}
+          <br />
+          <button>
+            <Link href="/profile">Find sports partners</Link>
+          </button>
+          <p>{props.matchedUser?.username}</p>
           {/* <ul>
             {props.user.sportsSelection.map((sports) => {
               return <li key={sports.name}>{sports.name}</li>;
@@ -189,6 +197,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const token = context.req.cookies.sessionToken;
   const user = token && (await getUserBySessionToken(token));
   const sport = await getSports();
+  // const matchedUsers = await getMatchedUserSportsByUsername(username);
 
   if (!user) {
     return {
@@ -200,6 +209,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   return {
-    props: { user, sport },
+    props: {
+      user,
+      sport,
+      // matchedUsers
+    },
   };
 }

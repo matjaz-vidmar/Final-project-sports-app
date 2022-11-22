@@ -6,7 +6,7 @@ exports.up = async (sql) => {
       password_hash VARCHAR (70) NOT NULL UNIQUE,
       email VARCHAR (70) NOT NULL,
       address VARCHAR (100) NOT NULL,
-      sports_selection VARCHAR (50) NOT NULL
+      sports_selection VARCHAR (150) NOT NULL
     )
   `;
 };

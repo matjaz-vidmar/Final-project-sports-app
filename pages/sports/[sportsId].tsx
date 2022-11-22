@@ -6,6 +6,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { relative } from 'path';
 import { getSportById, Sport } from '../../database/sports';
+import {
+  getUserBySportId,
+  getUserByUsername,
+  getUsers,
+  User,
+} from '../../database/users';
 import { getVenuesBySportId, Venue } from '../../database/venues';
 import { parseIntFromContextQuery } from '../../utils/contextQuery';
 
@@ -18,6 +24,9 @@ type Props =
     }
   | {
       venueBySport: Venue[];
+    }
+  | {
+      singleUser?: User;
     };
 
 const sportDivStyle = css`
@@ -69,9 +78,19 @@ export default function SingleSport(props: Props) {
           objectFit={'contain'}
         />
         {props.venueBySport.map((venue) => {
-          return <div>{venue.name}</div>;
+          return (
+            <div>
+              {venue.name}, {venue.address}
+            </div>
+          );
         })}
-        {/* <div>{props.venueBySport.name}</br>{props.venueBySport.address}</div> */}
+        {/* {props.singleUser.map((user) => {
+          return (
+            <div>
+              {user.name}, {user.address}
+            </div>
+          );
+        })} */}
       </nav>
     </div>
   );
@@ -93,11 +112,21 @@ export async function getServerSideProps(
 
   const foundSport = await getSportById(sportId);
   const foundSportWithVenue = await getVenuesBySportId(sportId);
+  const foundUserWithSports = await getUserBySportId(sportId);
+  // if (typeof foundUser === 'undefined') {
+  //   context.res.statusCode = 404;
+  //   return {
+  //     props: {
+  //       error: 'User not found',
+  //     },
+  //   };
+  // }
+  console.log(foundUserWithSports);
   if (typeof foundSportWithVenue === 'undefined') {
     context.res.statusCode = 404;
     return {
       props: {
-        error: 'Sport not found',
+        error: 'Venue not found',
       },
     };
   }
@@ -110,11 +139,12 @@ export async function getServerSideProps(
     };
   }
   console.log(foundSportWithVenue);
-
+  // console.log(foundUser);
   return {
     props: {
       singleSport: foundSport,
       venueBySport: foundSportWithVenue,
+      // singleUser: foundUser,
     },
   };
 }
