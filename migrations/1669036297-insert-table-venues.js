@@ -196,7 +196,7 @@ exports.down = async (sql) => {
       DELETE FROM
         venues
       WHERE
-        name = ${venues.name}
+        name = ${venue.name}
     `;
   }
 };

@@ -20,22 +20,18 @@ import sportsBackground from '../public/sportsBackground.jpg';
 export default function WelcomePage() {
   const buttonStyleSports = css`
     border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 250px;
+    margin-top: 40px;
+    width: 170px;
     height: 50px;
     left: 85px;
     top: 250px;
-    margin-bottom: 20px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 25px;
-    text-decoration: none;
-    color: #fdfc8d;
-    background-color: black;
-    margin-top: 20px;
+    background-color: #1a2169;
+    color: white;
     :hover {
-      background-color: #2f88ff;
+      background-color: #dcdcdc;
+      color: black;
       transition: 0.5s;
     }
   `;
@@ -44,7 +40,7 @@ export default function WelcomePage() {
     font-size: 30px;
     padding-top: 3px;
     font-weight: 650;
-    color: #2f88ff;
+    color: #1a2169;
     display: flex;
     justify-content: center;
     padding-top: 20px;
@@ -91,10 +87,11 @@ export default function WelcomePage() {
     animation: float 4s ease-in-out infinite;
   `;
   const textStyle = css`
-    padding: 50px;
+    padding: 100px;
     margin: 50px;
     display: flex;
     justify-content: center;
+    text-align: center;
     flex-direction: column;
     align-items: center;
     align-content: space-between;

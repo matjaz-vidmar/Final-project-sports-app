@@ -19,18 +19,14 @@ import sportsBackground from '../public/sportsBackground.jpg';
 const iconDivStyle = css`
   padding-left: 300 px;
   padding-right: 300 px;
-  nav-up: 50 px;
+
   padding-top: 50px;
   display: flex;
   gap: 60 px;
   justify-content: center;
   align-items: stretch;
 `;
-const backgroundPicture = css`
-  max-width: 100%;
-  height: auto;
-  background-size: cover;
-`;
+
 const iconStyle = css`
   @keyframes float {
     0% {
@@ -55,22 +51,22 @@ const iconStyle = css`
   border-color: black;
   box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
   transform: translatey(0px);
-  animation: float 4s ease-in-out infinite;
+  //animation: float 4s ease-in-out infinite;
 `;
 
 const buttonStyle = css`
   border-radius: 5px;
-
   width: 170px;
   height: 50px;
   left: 85px;
   top: 250px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 25px;
-  background-color: black;
-  color: #fdfc8d;
+  background-color: #1a2169;
+  color: white;
   :hover {
-    background-color: #2f88ff;
+    background-color: #dcdcdc;
+    color: black;
     transition: 0.5s;
   }
 `;
@@ -83,7 +79,7 @@ const navButtonsStyle = css`
 const h1Style = css`
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 35px;
-  padding-top: 3px;
+  padding-top: 30px;
   font-weight: 650;
   color: black;
   display: flex;
@@ -93,20 +89,24 @@ const h1Style = css`
 const h2Style = css`
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 50px;
-  padding-top: 3px;
+  padding-top: 30px;
+  margin-top: 30px;
   font-weight: 650;
   color: black;
   display: flex;
   justify-content: center;
-  padding-top: 10px;
 `;
-
+const titleStyle = css`
+  display: flex;
+  justify-content: center;
+  font-family: 'Pacifico', cursive;
+  font-size: 100px;
+  color: #1a2169;
+`;
 export default function Home() {
   return (
     <div>
-      <a css={backgroundPicture}>
-        <Image src={sportsBackground} />
-      </a>
+      <h1 css={titleStyle}>Sportify</h1>
       <div css={iconDivStyle}>
         <a css={iconStyle}>
           <Image src={iconBasketball} alt="icon basketball" />
@@ -150,9 +150,9 @@ export default function Home() {
           <Image src={iconVolleyBall} alt="icon volleyball" />
         </a>
       </div>
-      <h2 css={h1Style}>Want to connect to other sports enthusiasts? </h2>
+      <h2 css={h2Style}>Want to connect to other sports enthusiasts? </h2>
       <br />
-      <h2 css={h2Style}>Register or login below!</h2>
+      <h2 css={h1Style}>Register or login below!</h2>
 
       <nav css={navButtonsStyle}>
         <Link href="/register">

@@ -15,11 +15,12 @@ const headerStyle = css`
   padding: 5px;
 `;
 const h1Style = css`
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: 'Pacifico', cursive;
+  font-weight: bold;
   font-size: 30px;
   padding-top: 3px;
   font-weight: 650;
-  color: #2f88ff;
+  color: #1a2169;
 `;
 const faviconStyle = css`
   padding: 8px;
@@ -29,6 +30,7 @@ const faviconStyle = css`
   position: relative;
   justify-content: center;
   display: flex;
+  margin-left: 15px;
 `;
 const buttonsNavStyle = css`
   gap: 20px;
@@ -49,7 +51,7 @@ const headerButtonStyle = css`
   text-decoration: none;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 15px;
-  background-color: #e0e0e0;
+  background-color: #dcdcdc;
   color: black;
   :hover {
     background-color: #2f88ff;
@@ -64,14 +66,10 @@ export default function Header(props) {
   return (
     <header css={headerStyle}>
       <nav css={buttonsNavStyle}>
-        <Link href="./">
-          <button css={headerButtonStyle}>Home</button>
-        </Link>
-      </nav>
-
-      <nav css={buttonsNavStyle}>
         <div css={faviconStyle}>
-          <Image src={iconJoggingHeader} alt="icon jogging header" />
+          <Link href="./">
+            <Image src={iconJoggingHeader} alt="icon jogging header" />
+          </Link>
         </div>
         <nav css={h1Style}>Sportify</nav>
       </nav>
@@ -82,19 +80,15 @@ export default function Header(props) {
             justify-content: center;
             align-items: center;
             text-decoration: none;
-            border: solid 2px;
+
             border-radius: 5px;
             margin-right: 20px;
-            width: 150px;
-            height: 40px;
-            left: 85px;
-            top: 250px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             font-size: 15px;
             background-color: #e0e0e0;
             color: black;
             :hover {
-              background-color: #2f88ff;
+              text-decoration: underline;
               transition: 0.5s;
             }
           `}
@@ -122,7 +116,7 @@ export default function Header(props) {
               background-color: #e0e0e0;
               color: black;
               :hover {
-                background-color: #2f88ff;
+                text-decoration: underline;
                 transition: 0.5s;
               }
             `}

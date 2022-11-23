@@ -12,11 +12,14 @@ const sportStyles = css`
   padding: 10px;
   display: flex;
   justify-content: center;
-  justify-items: center;
-  h2 {
-    margin-left: 15px;
-  }
+  gap: 20px;
 
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding-top: 30px;
+  font-size: 30px;
+  div {
+    color: #1a2169;
+  }
   & + & {
     margin-top: 25px;
   }
@@ -54,9 +57,9 @@ export default function Sports(props: Props) {
               alt={`${sport.name}${sport.id}`}
             />
 
-            <h2>
+            <div>
               <Link href={`/sports/${sport.id}`}>{sport.name}</Link>
-            </h2>
+            </div>
           </div>
         );
       })}

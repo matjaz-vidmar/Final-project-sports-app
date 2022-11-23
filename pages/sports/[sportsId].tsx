@@ -7,7 +7,8 @@ import { useRouter } from 'next/router';
 import { relative } from 'path';
 import { getSportById, Sport } from '../../database/sports';
 import {
-  getUserBySportId,
+  getSportNameById,
+  getUserBySportName,
   getUserByUsername,
   getUsers,
   User,
@@ -15,40 +16,105 @@ import {
 import { getVenuesBySportId, Venue } from '../../database/venues';
 import { parseIntFromContextQuery } from '../../utils/contextQuery';
 
-type Props =
-  | {
-      error: string;
-    }
-  | {
-      singleSport: Sport;
-    }
-  | {
-      venueBySport: Venue[];
-    }
-  | {
-      singleUser?: User;
-    };
+// type Props =
+//   | {
+//       error: string;
+//     }
+//   | {
+//       singleSport: Sport;
+//     }
+//   | {
+//       venueBySport: Venue[];
+//     }
+//   | {
+//       userWithSports: User;
+//     };
 
 const sportDivStyle = css`
   display: grid;
   flex-direction: column;
-  max-width: 600px;
-  justify-content: center;
   align-items: center;
   padding: 20px 20px;
-  margin-left: auto;
-  margin-right: auto;
   text-align: center;
   border-radius: 6px;
   border-style: solid;
+`;
+const h2Style = css`
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding-top: 30px;
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  font-size: 70px;
+  font-weight: 600;
+  background-image: linear-gradient(to left, #553c9a, #1e2789);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 `;
 const navStyle = css`
   width: 100%;
   height: 100%;
   position: relative;
-  border-radius: 20px;
+
+  overflow: hidden;
 `;
-export default function SingleSport(props: Props) {
+const navUserVenue = css`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: flex-start;
+`;
+const h3Style = css`
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding-top: 30px;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 35px;
+  font-weight: 600;
+  padding-bottom: 30px;
+  color: #1e2789;
+  background-clip: text;
+  -webkit-background-clip: text;
+`;
+const divWrapper = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: large;
+  align-items: center;
+`;
+const divStyleUserVenue = css`
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  border: solid 2px;
+  width: 300px;
+  height: 300px;
+  margin: 15px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 20px;
+  background-color: #dcdcdc;
+`;
+const emailButtonStyle = css`
+  width: 90%;
+  height: 38px;
+  padding-left: 20px;
+  align-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  background-image: url('/email.svg');
+  background-repeat: no-repeat;
+  background-size: 25px;
+  background-position-y: center;
+  background-position-x: 6px;
+  :hover {
+    text-decoration: underline;
+  }
+`;
+export default function SingleSport(props) {
+  const router = useRouter();
   if ('error' in props) {
     return (
       <div>
@@ -68,29 +134,49 @@ export default function SingleSport(props: Props) {
         <title>{props.singleSport.name}</title>
         <meta name="sport" content={`${props.singleSport.name}`} />
       </Head>
-      <h2>{props.singleSport.name}</h2>
+      <h2 css={h2Style}>{props.singleSport.name}</h2>
       <nav css={navStyle}>
         <Image
           src={`/../public/${props.singleSport.name}.png`}
           alt={props.singleSport.name}
-          width={500}
-          height={500}
+          width={600}
+          height={600}
           objectFit={'contain'}
         />
-        {props.venueBySport.map((venue) => {
-          return (
-            <div>
-              {venue.name}, {venue.address}
-            </div>
-          );
-        })}
-        {/* {props.singleUser.map((user) => {
-          return (
-            <div>
-              {user.name}, {user.address}
-            </div>
-          );
-        })} */}
+        <nav css={navUserVenue}>
+          <div css={divWrapper}>
+            <h3 css={h3Style}>Venues:</h3>
+            {props.venueBySport.map((venue) => {
+              return (
+                <div css={divStyleUserVenue}>
+                  <h4> {venue.name}</h4> {venue.address}
+                </div>
+              );
+            })}
+          </div>
+
+          <div css={divWrapper}>
+            <h3 css={h3Style}>Find your sports partners:</h3>
+            {props.userWithSports.map((user) => {
+              return (
+                <div css={divStyleUserVenue}>
+                  <h4>Username:</h4> {user.username} <br /> <h4>Address:</h4>
+                  {user.address} <br /> <h4>Email:</h4>
+                  <button
+                    css={emailButtonStyle}
+                    onClick={async () =>
+                      await router.push(
+                        `mailto:${user.email}?subject=Sportify&body=Hi, ${user.username}! Want to play sports with me? I like playing ${props.singleSport.name}!. Let's meet up at ${props.venueBySport[0].name}! See you soon!`,
+                      )
+                    }
+                  >
+                    {user.email}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </nav>
       </nav>
     </div>
   );
@@ -112,16 +198,9 @@ export async function getServerSideProps(
 
   const foundSport = await getSportById(sportId);
   const foundSportWithVenue = await getVenuesBySportId(sportId);
-  const foundUserWithSports = await getUserBySportId(sportId);
-  // if (typeof foundUser === 'undefined') {
-  //   context.res.statusCode = 404;
-  //   return {
-  //     props: {
-  //       error: 'User not found',
-  //     },
-  //   };
-  // }
-  console.log(foundUserWithSports);
+  const sportName = await getSportNameById(sportId);
+  const foundUserWithSports = await getUserBySportName(sportName[0].name);
+
   if (typeof foundSportWithVenue === 'undefined') {
     context.res.statusCode = 404;
     return {
@@ -138,13 +217,12 @@ export async function getServerSideProps(
       },
     };
   }
-  console.log(foundSportWithVenue);
-  // console.log(foundUser);
+
   return {
     props: {
       singleSport: foundSport,
       venueBySport: foundSportWithVenue,
-      // singleUser: foundUser,
+      userWithSports: foundUserWithSports,
     },
   };
 }

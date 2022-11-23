@@ -149,18 +149,31 @@ export async function createUser(
   `;
   return userWithoutPassword!;
 }
-export async function getUserBySportId(sportId: Sport['id']) {
-  const userWithSports = await sql<User[]>`
+export async function getSportNameById(sportId: Sport['id']) {
+  const sportById = await sql<Sport[]>`
     SELECT
-      users.*,
-      sports.*,
-      sports_selection.*
+      name
     FROM
-      users
       sports
     WHERE
-     users.sports_selection.id =${sportId}
+      id = ${sportId}
+  `;
+  return sportById;
+}
 
+export async function getUserBySportName(sportName: Sport['name']) {
+  const userWithSports = await sql<User[]>`
+    SELECT
+      username,
+      email,
+      address,
+      sports_selection
+    FROM
+      users
+    WHERE
+      sports_selection
+    LIKE
+      ${`%${sportName}%`}
   `;
   return userWithSports;
 }

@@ -23,21 +23,21 @@ const labelStyle = css`
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 20px;
   font-weight: bold;
-  color: #2f88ff;
+  color: #1a2169;
 `;
 const buttonStyle = css`
   border-radius: 5px;
-
-  width: 100px;
+  width: 170px;
   height: 50px;
   left: 85px;
   top: 250px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 25px;
-  background-color: black;
-  color: #fdfc8d;
+  background-color: #1a2169;
+  color: white;
   :hover {
-    background-color: #2f88ff;
+    background-color: #dcdcdc;
+    color: black;
     transition: 0.5s;
   }
 `;
@@ -129,6 +129,7 @@ export default function Login(props: Props) {
 
         <label css={labelStyle}>Password</label>
         <input
+          type="password"
           value={password}
           onChange={(event) => {
             setPassword(event.currentTarget.value);

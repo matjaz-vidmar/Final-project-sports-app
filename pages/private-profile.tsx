@@ -72,11 +72,9 @@ export default function UserProfile(props: Props) {
     font-size: 50px;
     display: flex;
     justify-content: center;
-
     font-size: 70px;
     font-weight: 600;
-    background-image: linear-gradient(to left, #553c9a, #2f88ff);
-    color: transparent;
+    color: #1a2169;
     background-clip: text;
     -webkit-background-clip: text;
   `;
@@ -84,59 +82,43 @@ export default function UserProfile(props: Props) {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     padding-top: 30px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     font-size: 35px;
     font-weight: 600;
-    padding-bottom: 30px;
-    background-image: linear-gradient(to left, #553c9a, #2f88ff);
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
+
+    color: #1a2169;
   `;
 
   const personalInfoStyles = css`
-    font-size: 30px;
+    font-size: 20px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-  `;
-  const buttonStyle = css`
-    border-radius: 5px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    text-align: center;
     align-items: center;
-    width: 200px;
-    height: 50px;
-    left: 85px;
-    top: 250px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 25px;
-    background-color: black;
-    color: #fdfc8d;
-    margin-top: 20px;
-    :hover {
-      background-color: #2f88ff;
-      transition: 0.5s;
+    background: #dcdcdc;
+    margin: 40px;
+    border: solid;
+    h4 {
+      margin: 20px;
     }
   `;
+
   const buttonStyleSports = css`
     border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 250px;
     height: 50px;
-    left: 85px;
-    top: 250px;
-    margin-bottom: 20px;
+    margin-top: 50px;
+    margin-bottom: 30px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 25px;
-    a {
-      text-decoration: none;
-      color: #fdfc8d;
-    }
-    background-color: black;
-    margin-top: 20px;
+    text-decoration: none;
+    background-color: #1a2169;
+    color: white;
     :hover {
-      background-color: #2f88ff;
+      background-color: #dcdcdc;
+      color: black;
       transition: 0.5s;
     }
   `;
@@ -144,13 +126,9 @@ export default function UserProfile(props: Props) {
   const gridWrapperStyle = css`
     display: grid;
     grid-template-columns: 1fr 1fr;
+    align-items: center;
     padding-left: 20px;
   `;
-  // const [selected, setSelected] = useState(new Set([]));
-  // const selectedValue = useMemo(
-  //   () => Array.from(selected).join(', ').replaceAll('_', ' '),
-  //   [selected],
-  // );
 
   return (
     <>
@@ -160,33 +138,23 @@ export default function UserProfile(props: Props) {
       <h2 css={h2Style}>Personal Profile</h2>
       <nav css={gridWrapperStyle}>
         <div css={personalInfoStyles}>
-          Username: {props.user.username}
+          <h4> Username:</h4> {props.user.username}
           <br />
-          E-mail: {props.user.email}
+          <h4>E-mail:</h4> {props.user.email}
           <br />
-          Address: {props.user.address} <br />
-          <button css={buttonStyle}>Delete user</button>
+          <h4>Address:</h4> {props.user.address} <br />
+          <button css={buttonStyleSports}>Delete user</button>
         </div>
-        <div>
-          <button css={buttonStyleSports}>
-            <a href="./sports">Available sports</a>
-          </button>
+
+        <div css={personalInfoStyles}>
           <label>
             <h3 css={h3Style}>Selected sports:</h3>
-            <br />
           </label>
-
-          {props.user.sportsSelection}
-          <br />
-          <button>
-            <Link href="/profile">Find sports partners</Link>
-          </button>
-          <p>{props.matchedUser?.username}</p>
-          {/* <ul>
-            {props.user.sportsSelection.map((sports) => {
-              return <li key={sports.name}>{sports.name}</li>;
-            })}
-          </ul> */}
+          <br /> <h3>{props.user.sportsSelection}</h3>
+          <h3 css={h3Style}>Find partners for each selected sport:</h3>
+          <Link href="./sports">
+            <button css={buttonStyleSports}>Available sports</button>
+          </Link>
         </div>
       </nav>
     </>
@@ -212,7 +180,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: {
       user,
       sport,
-      // matchedUsers
     },
   };
 }

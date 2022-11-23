@@ -20,9 +20,7 @@ const backgroundDivStyle = css`
   position: absolute;
   width: 100%;
   height: 100%;
-
-  background: linear-gradient(180deg, #2f88ff 0%, rgba(30, 100, 200, 0) 80%);
-  filter: blur(2px);
+  background: #1a2169;
 `;
 
 export default function Layout(props) {
