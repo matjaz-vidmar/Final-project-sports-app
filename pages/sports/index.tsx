@@ -50,10 +50,10 @@ export default function Sports(props: Props) {
             key={`sport-${sport.id}`}
             css={sportStyles}
           >
-            <Image
+            <img
               height={40}
               width={40}
-              src={`/../public/${sport.id}.png`}
+              src={`/${sport.id}.png`}
               alt={`${sport.name}${sport.id}`}
             />
 

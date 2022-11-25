@@ -106,6 +106,9 @@ const titleStyle = css`
 export default function Home() {
   return (
     <div>
+      <head>
+        <meta name="sportify landing page" content=" Matjaz Vidmar" />
+      </head>
       <h1 css={titleStyle}>Sportify</h1>
       <div css={iconDivStyle}>
         <a css={iconStyle}>

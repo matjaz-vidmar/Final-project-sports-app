@@ -128,8 +128,8 @@ export default function SingleSport(props) {
       </Head>
       <h2 css={h2Style}>{props.singleSport.name}</h2>
       <nav css={navStyle}>
-        <Image
-          src={`/../public/${props.singleSport.name}.png`}
+        <img
+          src={`/${props.singleSport.name}.png`}
           alt={props.singleSport.name}
           width={600}
           height={600}
