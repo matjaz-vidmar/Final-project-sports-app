@@ -11,11 +11,9 @@ const h2Style = css`
   font-size: 50px;
   display: flex;
   justify-content: center;
-
   font-size: 70px;
   font-weight: 600;
-  background-image: linear-gradient(to left, #553c9a, #2f88ff);
-  color: transparent;
+  color: #1a2169;
   background-clip: text;
   -webkit-background-clip: text;
 `;
@@ -40,6 +38,11 @@ const buttonStyle = css`
     color: black;
     transition: 0.5s;
   }
+`;
+const labelBoxStyle = css`
+  box-shadow: 20px 18px 24px -10px rgba(0, 0, 0, 0.33) inset;
+  -webkit-box-shadow: 20px 18px 24px -10px rgba(0, 0, 0, 0.33) inset;
+  -moz-box-shadow: 20px 18px 24px -10px rgba(0, 0, 0, 0.33) inset;
 `;
 const inputDivStyle = css`
   display: flex;
@@ -121,6 +124,7 @@ export default function Login(props: Props) {
       <div css={inputDivStyle}>
         <label css={labelStyle}>Username </label>
         <input
+          css={labelBoxStyle}
           value={username}
           onChange={(event) => {
             setUsername(event.currentTarget.value.toLocaleLowerCase());
@@ -129,6 +133,7 @@ export default function Login(props: Props) {
 
         <label css={labelStyle}>Password</label>
         <input
+          css={labelBoxStyle}
           type="password"
           value={password}
           onChange={(event) => {

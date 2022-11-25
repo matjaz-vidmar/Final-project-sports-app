@@ -13,7 +13,7 @@ import iconMountainClimbing from '../public/iconMountainClimbing.svg';
 import iconSwimming from '../public/iconSwimming.svg';
 import iconTableTennis from '../public/iconTableTennis.svg';
 import iconTennis from '../public/iconTennis.svg';
-import iconVolleyBall from '../public/iconVolleyBall.svg';
+import iconVolleyball from '../public/iconVolleyball.svg';
 import sportsBackground from '../public/sportsBackground.jpg';
 
 const iconDivStyle = css`
@@ -147,7 +147,7 @@ export default function Home() {
           <Image src={iconTennis} alt="icon tennis" />
         </a>
         <a css={iconStyle}>
-          <Image src={iconVolleyBall} alt="icon volleyball" />
+          <Image src={iconVolleyball} alt="icon volleyball" />
         </a>
       </div>
       <h2 css={h2Style}>Want to connect to other sports enthusiasts? </h2>

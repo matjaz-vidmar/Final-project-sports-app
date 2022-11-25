@@ -4,5 +4,5 @@ export default function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  response.status(200).json({'http://localhost:3000/api'})
+  response.status(200).json({ sports: 'http://localhost:3000/api/sports' });
 }

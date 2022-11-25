@@ -44,6 +44,11 @@ const buttonStyle = css`
     transition: 0.5s;
   }
 `;
+const labelBoxStyle = css`
+  box-shadow: 20px 18px 24px -10px rgba(0, 0, 0, 0.33) inset;
+  -webkit-box-shadow: 20px 18px 24px -10px rgba(0, 0, 0, 0.33) inset;
+  -moz-box-shadow: 20px 18px 24px -10px rgba(0, 0, 0, 0.33) inset;
+`;
 const inputDivStyle = css`
   display: flex;
   flex-direction: column;
@@ -132,6 +137,7 @@ export default function Register(props: Props) {
       <div css={inputDivStyle}>
         <label css={labelStyle}>Username</label>
         <input
+          css={labelBoxStyle}
           value={username}
           onChange={(event) => {
             setUsername(event.currentTarget.value.toLowerCase());
@@ -140,6 +146,7 @@ export default function Register(props: Props) {
 
         <label css={labelStyle}>Password</label>
         <input
+          css={labelBoxStyle}
           type="password"
           value={password}
           onChange={(event) => {
@@ -148,6 +155,7 @@ export default function Register(props: Props) {
         />
         <label css={labelStyle}>Email</label>
         <input
+          css={labelBoxStyle}
           value={email}
           onChange={(event) => {
             setEmail(event.currentTarget.value);
@@ -155,6 +163,7 @@ export default function Register(props: Props) {
         />
         <label css={labelStyle}>Address</label>
         <input
+          css={labelBoxStyle}
           value={address}
           onChange={(event) => {
             setAddress(event.currentTarget.value);
@@ -168,7 +177,7 @@ export default function Register(props: Props) {
 
           <Dropdown.Menu
             aria-label="Multiple selection actions"
-            background-color=" #2f88ff"
+            background-color=" #1a2169"
             disallowEmptySelection
             selectionMode="multiple"
             selectedKeys={selected}

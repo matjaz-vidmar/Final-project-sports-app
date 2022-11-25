@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Layout user={user}>
         <NextUIProvider>
-          <Component {...pageProps} refreshUserProfile={refreshUserProfile} />;
+          <Component {...pageProps} refreshUserProfile={refreshUserProfile} />
         </NextUIProvider>
       </Layout>
     </>

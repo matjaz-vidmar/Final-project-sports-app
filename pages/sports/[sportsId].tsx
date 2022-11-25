@@ -4,16 +4,9 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { relative } from 'path';
-import { getSportById, Sport } from '../../database/sports';
-import {
-  getSportNameById,
-  getUserBySportName,
-  getUserByUsername,
-  getUsers,
-  User,
-} from '../../database/users';
-import { getVenuesBySportId, Venue } from '../../database/venues';
+import { getSportById } from '../../database/sports';
+import { getSportNameById, getUserBySportName } from '../../database/users';
+import { getVenuesBySportId } from '../../database/venues';
 import { parseIntFromContextQuery } from '../../utils/contextQuery';
 
 // type Props =
@@ -56,7 +49,6 @@ const navStyle = css`
   width: 100%;
   height: 100%;
   position: relative;
-
   overflow: hidden;
 `;
 const navUserVenue = css`

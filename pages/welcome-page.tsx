@@ -14,7 +14,7 @@ import iconMountainClimbing from '../public/iconMountainClimbing.svg';
 import iconSwimming from '../public/iconSwimming.svg';
 import iconTableTennis from '../public/iconTableTennis.svg';
 import iconTennis from '../public/iconTennis.svg';
-import iconVolleyBall from '../public/iconVolleyBall.svg';
+import iconVolleyball from '../public/iconVolleyball.svg';
 import sportsBackground from '../public/sportsBackground.jpg';
 
 export default function WelcomePage() {
@@ -150,7 +150,7 @@ export default function WelcomePage() {
           <Image src={iconTennis} alt="icon tennis" />
         </a>
         <a css={iconStyle}>
-          <Image src={iconVolleyBall} alt="icon volleyball" />
+          <Image src={iconVolleyball} alt="icon volleyball" />
         </a>
       </div>
     </div>
